@@ -16,6 +16,7 @@ export class PostController {
             select: {
               email: true,
               username: true,
+              avatar: true,
             },
           },
         },
@@ -53,5 +54,4 @@ export class PostController {
       res.status(400).send(err);
     }
   }
-
 }

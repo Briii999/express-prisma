@@ -5,8 +5,10 @@ import { Prisma } from "../../prisma/generated.client";
 export class UserController {
   async createUser(req: Request, res: Response) {
     try {
-      const { email, password, username } = req.body;
-      await prisma.user.create({ data: { email, password, username } });
+      const { email, password, username, fullname } = req.body;
+      await prisma.user.create({
+        data: { email, password, username, fullname },
+      });
 
       res.status(201).send({ message: "User created successfully" });
     } catch (err) {
