@@ -20,6 +20,7 @@ export class PostController {
             },
           },
         },
+        orderBy: { createdAt: "desc" },
       });
       res.status(200).send({ message: "Posts fetched successfully", posts });
     } catch (err) {
@@ -30,10 +31,18 @@ export class PostController {
 
   async createPost(req: Request, res: Response) {
     try {
-      const { imageUrl, caption, userId } = req.body;
-      await prisma.post.create({ data: { imageUrl, caption, userId } });
+      if (!req.file) throw { message: "Image empty" };
+      const { caption } = req.body;
+      const imageUrl = `http://localhost:8000/api/public/${req.file.filename}`;
 
-      res.status(201).send({ message: "Post created successfully" });
+      await prisma.post.create({
+        data: { imageUrl, caption, userId: req.user?.id! },
+      });
+
+      res.status(201).send({
+        message: "Post created successfully",
+        data: req.file,
+      });
     } catch (err) {
       console.log(err);
       res.status(400).send(err);

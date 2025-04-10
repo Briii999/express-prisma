@@ -3,6 +3,7 @@ import { UserRouter } from "./routers/user.router";
 import { PostRouter } from "./routers/post.router";
 import cors from "cors";
 import { AuthRouter } from "./routers/auth.router";
+import path from "path";
 const PORT: number = 8000;
 
 const app: Application = express();
@@ -12,6 +13,8 @@ app.use(cors());
 app.get("/api", (req: Request, res: Response) => {
   res.status(200).send({ message: "Welcome to the rest-express API" });
 });
+
+app.use("/api/public", express.static(path.join(__dirname, "../public")))
 
 const userRouter = new UserRouter();
 app.use("/api/users", userRouter.getRouter());
