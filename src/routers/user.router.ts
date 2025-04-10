@@ -24,11 +24,19 @@ export class UserRouter {
       this.authMiddleware.verifyToken,
       this.userController.getUserPosts
     );
-    this.router.post("/", this.userController.createUser);
+    this.router.patch(
+      "/",
+      this.authMiddleware.verifyToken,
+      this.userController.updateUser
+    );
 
     this.router.get("/:id", this.userController.getUserById);
-    this.router.delete("/:id", this.userController.deleteUser);
-    this.router.patch("/:id", this.userController.updateUser);
+    this.router.delete(
+      "/:id",
+      this.authMiddleware.verifyToken,
+      this.authMiddleware.verifyAdmin,
+      this.userController.deleteUser
+    );
   }
 
   getRouter(): Router {

@@ -3,19 +3,7 @@ import prisma from "../prisma";
 import { Prisma } from "../../prisma/generated.client";
 
 export class UserController {
-  async createUser(req: Request, res: Response) {
-    try {
-      const { email, password, username, fullname } = req.body;
-      await prisma.user.create({
-        data: { email, password, username, fullname },
-      });
 
-      res.status(201).send({ message: "User created successfully" });
-    } catch (err) {
-      console.log(err);
-      res.status(400).send(err);
-    }
-  }
 
   async getUsers(req: Request, res: Response) {
     try {
@@ -75,10 +63,9 @@ export class UserController {
 
   async updateUser(req: Request, res: Response) {
     try {
-      const { id } = req.params;
       const data: Prisma.UserUpdateInput = req.body;
       const user = await prisma.user.update({
-        where: { id: Number(id) },
+        where: { id: req.user?.id },
         data,
       });
       res.status(200).send({ message: "User updated successfully", user });

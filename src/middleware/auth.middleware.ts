@@ -17,4 +17,14 @@ export class AuthMiddleware {
       res.status(400).send(err);
     }
   }
+
+  verifyAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (req.user?.role !== "admin") throw { message: "Admin only" };
+      next();
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  }
 }
