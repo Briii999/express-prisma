@@ -24,6 +24,8 @@ export class UserRouter {
       this.authMiddleware.verifyToken,
       this.userController.getUserPosts
     );
+    this.router.get("/redis", this.userController.getuUserRedis);
+
     this.router.patch(
       "/",
       this.authMiddleware.verifyToken,

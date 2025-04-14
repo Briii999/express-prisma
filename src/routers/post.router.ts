@@ -16,11 +16,23 @@ export class PostRouter {
   }
   private initializeRoutes() {
     this.router.get("/", this.postController.getPost);
+
     this.router.post(
       "/",
       uploader("diskStorage", "ig-").single("image"),
       this.authMiddleware.verifyToken,
       this.postController.createPost
+    );
+    this.router.post(
+      "/cloud",
+      uploader("memoryStorage", "ig-").single("image"),
+      this.authMiddleware.verifyToken,
+      this.postController.createPostCloud
+    );
+    this.router.post(
+      "/like",
+      this.authMiddleware.verifyToken,
+      this.postController.likePost
     );
 
     this.router.delete("/:id", this.postController.deletePost);

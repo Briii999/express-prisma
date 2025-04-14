@@ -21,6 +21,7 @@ model User {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   Post       Post[]
+  Like       Like[]
 }
 
 model Post {
@@ -31,4 +32,16 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id])
+  Like      Like[]
+}
+
+model Like {
+  postId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+
+  @@id([postId, userId])
 }

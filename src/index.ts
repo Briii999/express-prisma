@@ -4,6 +4,8 @@ import { PostRouter } from "./routers/post.router";
 import cors from "cors";
 import { AuthRouter } from "./routers/auth.router";
 import path from "path";
+import cron from 'node-cron'
+
 const PORT: number = 8000;
 
 const app: Application = express();
@@ -24,6 +26,11 @@ app.use("/api/posts", postRouter.getRouter());
 
 const authRouter = new AuthRouter();
 app.use("/api/auth", authRouter.getRouter());
+
+//scheduled task
+// cron.schedule('* * * * *', () => {
+//   console.log('running a task every minute');
+// });
 
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}/api`);
